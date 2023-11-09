@@ -1,0 +1,54 @@
+{
+  "name": "typescript-app-with-payment-gateway",
+  "version": "1.0.0",
+  "description": "Test to integrate payment gateway in a typescript app.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giftedGeorge/Typescript-App-With-Payment-Gateway.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/giftedGeorge/Typescript-App-With-Payment-Gateway/issues"
+  },
+  "homepage": "https://github.com/giftedGeorge/Typescript-App-With-Payment-Gateway#readme",
+  "dependencies": {
+    "argon2": "^0.31.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "googleapis": "^128.0.0",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0",
+    "node-fetch": "^2.6.7",
+    "nodemailer": "^6.9.7",
+    "pino": "^8.16.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "twilio": "^4.19.0"
+  },
+  "devDependencies": {
+    "@types/argon2": "^0.15.0",
+    "@types/cors": "^2.8.16",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/mongoose": "^5.11.97",
+    "@types/node-fetch": "^2.6.9",
+    "@types/nodemailer": "^6.4.14",
+    "@types/swagger-jsdoc": "^6.0.3",
+    "@types/swagger-ui-express": "^4.1.6",
+    "@types/twilio": "^3.19.3",
+    "nodemon": "^3.0.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
+  }
+}
