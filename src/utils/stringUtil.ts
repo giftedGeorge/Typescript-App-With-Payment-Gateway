@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import logger from '../logger';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function getEmailTemplate(templateName:string): Promise<string>{
     return new Promise((resolve, reject) => {
@@ -16,4 +17,9 @@ export async function getEmailTemplate(templateName:string): Promise<string>{
           }
         });
       });
-}
+};
+
+
+export function generateUniqueReference(): string {
+  return uuidv4();
+};

@@ -11,6 +11,7 @@ declare global {
 type UserType = {
   phoneNumber: string;
   id?: string;
+  email: string;
   firstName?: string;
   lastName?: string;
 };

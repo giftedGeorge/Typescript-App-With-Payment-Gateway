@@ -63,7 +63,7 @@ async function createUser(req:Request){
 async function login(req:Request){
     const refreshToken = jwtUtil.generateRefreshToken(req.user?.id!);
     
-    const payload = {id:req.user?.id!, phoneNumber: req.user?.phoneNumber!, firstName: req.user?.firstName!, lastName: req.user?.lastName!}
+    const payload = {id:req.user?.id!, phoneNumber: req.user?.phoneNumber!, firstName: req.user?.firstName!, email: req.user?.email!, lastName: req.user?.lastName!}
     const accessToken = jwtUtil.generateAccessToken(payload, process.env.ACCESS_TOKEN_EXPIRATION_TIME!);
 
     return{

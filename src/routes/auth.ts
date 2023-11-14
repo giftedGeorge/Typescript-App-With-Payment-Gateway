@@ -70,9 +70,9 @@ import { SignUpRequestModel, ValidateOtpRequestModel, CreatePinRequestModel } fr
  *     OtherResponseModel:
  *       type: object
  *       properties:
+ *         success:
+ *           type: boolean
  *         message:
- *           type: string
- *         error:
  *           type: string
  * 
  *   securitySchemes:

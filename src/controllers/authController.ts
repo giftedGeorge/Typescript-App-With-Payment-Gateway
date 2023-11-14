@@ -2,6 +2,7 @@ import {authService} from '../services';
 import * as errors from '../errors';
 import {Request, Response} from 'express';
 import { asyncWrapper } from '../utils/asyncWrapper';
+import { StatusCodes } from 'http-status-codes';
 
 const signUp = asyncWrapper(async (req: Request, res: Response) => {
     const result = await authService.signUp(req);
@@ -9,7 +10,7 @@ const signUp = asyncWrapper(async (req: Request, res: Response) => {
     if(!result){
         throw new errors.BadRequestError('An error ocurred while signing up. Please check your values and try again');
     }
-    return res.status(200).json(result);
+    return res.status(StatusCodes.OK).json(result);
 });
 
 const validateOtp = asyncWrapper(async (req:Request, res:Response) => {
@@ -18,7 +19,7 @@ const validateOtp = asyncWrapper(async (req:Request, res:Response) => {
     if(!result || result !== true){
         throw new errors.BadRequestError('An error ocurred while signing up. Please check your values and try again');
     }
-    return res.status(200).json({message: 'OTP validated successfully'});
+    return res.status(StatusCodes.OK).json({message: 'OTP validated successfully'});
 });
 
 const createPin = asyncWrapper( async (req:Request, res:Response) => {
@@ -27,7 +28,7 @@ const createPin = asyncWrapper( async (req:Request, res:Response) => {
     if(!result || result !== true){
         throw new errors.BadRequestError('An error ocurred while signing up. Please check your values and try again');
     }
-    return res.status(200).json({message: 'Pin created successfully'});
+    return res.status(StatusCodes.OK).json({message: 'Pin created successfully'});
 });
 
 export{

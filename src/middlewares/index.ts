@@ -7,6 +7,7 @@ import { plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import { sendMailAsync } from '../services';
 import { stringUtil } from '../utils';
+import { BadRequestError, InternalServerError, UnauthorizedError } from '../errors';
 const fromMail = process.env.FROM_MAIL!;
 
 
@@ -15,22 +16,22 @@ function validateAccessToken(req:Request, res:Response, next:NextFunction) {
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
-      res.status(400).send('Error! Token is missing from the request!');
+      throw new BadRequestError('Error! Token is missing from the request!');
   }
 
   try {
       const decodedToken = jwt.verify(token!, process.env.ACCESS_TOKEN_SECRET_KEY!) as JwtPayload;
-      req.user = {...req.user, id: decodedToken.id, phoneNumber: decodedToken.phoneNumber, firstName: decodedToken.firstName, lastName: decodedToken.lastName};
+      req.user = {...req.user, id: decodedToken.id, email: decodedToken.email!, phoneNumber: decodedToken.phoneNumber, firstName: decodedToken.firstName, lastName: decodedToken.lastName};
       next();
   } catch (error) {
       logger.error(error);
-      res.status(401).send('Error! Invalid access token!');
+      throw new UnauthorizedError('Error! Invalid access token!');
   }
 };
 
 function validateUserAuthenticated(req:Request, res:Response, next:NextFunction){
-  if(!req.user || !req.user.id || !req.user.phoneNumber || !req.user.firstName || !req.user.lastName){
-      return res.status(401).json({ message: 'Unauthorized' });
+  if(!req.user || !req.user.id || !req.user.phoneNumber || !req.user.firstName || !req.user.lastName || !req.user.email){
+    throw new UnauthorizedError('Unauthorized!');
   }
 
   return next();
@@ -40,13 +41,13 @@ async function authenticateUser(req: Request, res: Response, next: NextFunction)
   const { phoneNumber, pin } = req.body;
 
   if (!phoneNumber || !pin) {
-    return res.status(400).json({ message: 'Username and pin are required' });
+    throw new BadRequestError('Username and pin are required');
   }
 
   const user = await userRepository.getUserByPhoneNumber(phoneNumber);
 
   if (!user) {
-    return res.status(401).json({ message: 'Invalid username or pin' });
+    throw new BadRequestError('Invalid username or pin');
   }
 
   const userLogin = await authRepository.getUserLoginByPhoneNumber(user.phoneNumber!);
@@ -55,11 +56,11 @@ async function authenticateUser(req: Request, res: Response, next: NextFunction)
     const pinMatches = await argon2.verify(userLogin?.pin!, pin);
 
     if (!pinMatches) {
-      return res.status(401).json({ message: 'Invalid username or pin' });
+      throw new UnauthorizedError('Invalid username or pin');
     }
 
     // If authentication is successful, attach the user's details to the request
-    req.user = {...req.user, id: String(user._id), phoneNumber: user.phoneNumber!, firstName: user.firstName!, lastName:user.lastName!};
+    req.user = {...req.user, id: String(user._id), email: user.email!, phoneNumber: user.phoneNumber!, firstName: user.firstName!, lastName:user.lastName!};
 
     //Send Login Notification Email
     const templateName = 'loginNotificationEmail';
@@ -76,8 +77,8 @@ async function authenticateUser(req: Request, res: Response, next: NextFunction)
     
     return next();
   } catch (error) {
-    logger.error('Error verifying pin:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+    logger.error('Error verifying login details:', error);
+    throw new InternalServerError('Internal server error');
   };
 }
 

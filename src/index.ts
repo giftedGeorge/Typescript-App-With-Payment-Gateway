@@ -5,7 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from '../swaggerOptions';
 import routes from './routes';
 import logger from './logger';
-import { NotFoundError } from './errors';
+import { PathNotFoundError } from './errors';
 import { ErrorHandler } from './middlewares/errorHandler';
 
 const port = process.env.PORT || 5000;
@@ -23,11 +23,11 @@ async function startServer (){
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
     app.use((req:Request) => {
-        throw new NotFoundError(req.path);
+        throw new PathNotFoundError(req.path);
     })
 
     app.use(ErrorHandler.handle)
-    
+
     app.listen(port, () => {
         logger.info(`Server listening at http://localhost:${port}`);
     });

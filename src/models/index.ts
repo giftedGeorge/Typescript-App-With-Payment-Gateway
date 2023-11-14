@@ -3,6 +3,7 @@ import Transaction from './transaction';
 import Otp from './otp';
 import SignUp from './signUp';
 import UserLogin from './userLogin';
+import Wallet from './wallet';
 
 
 export default{
@@ -11,4 +12,5 @@ export default{
     Otp,
     SignUp,
     UserLogin,
+    Wallet,
 };

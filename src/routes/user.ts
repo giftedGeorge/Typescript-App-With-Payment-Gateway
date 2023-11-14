@@ -1,5 +1,5 @@
 import express from 'express';
-const router = express.Router();
+const userRouter = express.Router();
 import {userController} from '../controllers';
 import middleware from '../middlewares';
 import {CreateUserRequestModel, LoginRequestModel } from '../requestModels';
@@ -26,9 +26,9 @@ import {CreateUserRequestModel, LoginRequestModel } from '../requestModels';
  *     OtherResponseModel:
  *       type: object
  *       properties:
+ *         success:
+ *           type: boolean
  *         message:
- *           type: string
- *         error:
  *           type: string
  * 
  *     TokenModel:
@@ -131,9 +131,9 @@ import {CreateUserRequestModel, LoginRequestModel } from '../requestModels';
  *             schema:
  *               $ref: '#/components/schemas/OtherResponseModel'
 */
-router.post('/login', middleware.validateRequest(LoginRequestModel), middleware.authenticateUser, userController.login);
+userRouter.post('/login', middleware.validateRequest(LoginRequestModel), middleware.authenticateUser, userController.login);
 
-router.use(middleware.validateAccessToken);
+userRouter.use(middleware.validateAccessToken);
 
 /**
  * @swagger
@@ -173,7 +173,7 @@ router.use(middleware.validateAccessToken);
  *             schema:
  *               $ref: '#/components/schemas/OtherResponseModel'
 */
-router.put('/create-user', middleware.validateRequest(CreateUserRequestModel), userController.createUser);
+userRouter.put('/create-user', middleware.validateRequest(CreateUserRequestModel), userController.createUser);
 
 
-export default router;
+export default userRouter;

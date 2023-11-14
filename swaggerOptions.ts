@@ -7,9 +7,9 @@ const swaggerOptions: swaggerJsDoc.Options = {
         tryItOutEnabled: true,
         openapi: '3.0.0',
         info: {
-            title: 'Amali Mobile App',
+            title: 'Thrindle Test',
             version: '1.0.0',
-            description: 'API documentation for the Amali Mobile App project',
+            description: 'API documentation for a thrindle test project',
         },
         servers: [
             {
